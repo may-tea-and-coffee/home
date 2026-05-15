@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="May Tea & Coffee — matcha, coffee, milk tea, fruit tea, smoothies, gift cards, and loyalty rewards." />
+  <title>May Tea & Coffee | Matcha, Coffee & Milk Tea</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="site-loader" id="siteLoader" aria-hidden="true">
+    <div class="loader-cloud"><span></span><span></span><span></span></div>
+    <p>May Tea & Coffee</p>
+  </div>
+
+  <div class="announcement-modal" id="announcementModal" role="dialog" aria-modal="true" aria-labelledby="announcementTitle" hidden>
+    <div class="announcement-backdrop" data-close-announcement></div>
+    <article class="announcement-card">
+      <button class="icon-button close-announcement" type="button" data-close-announcement aria-label="Close announcement">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="announcement-image-wrap">
+        <img id="announcementImage" src="" alt="Announcement" />
+      </div>
+      <div class="announcement-copy">
+        <p class="eyebrow" id="announcementTitle"></p>
+        <h2 id="announcementHeadline"></h2>
+        <p id="announcementMessage"></p>
+        <a id="announcementButton" class="btn primary" href="#"></a>
+      </div>
+    </article>
+  </div>
+
+  <header class="site-header" id="siteHeader">
+    <a href="#home" class="brand" aria-label="May Tea & Coffee home">
+      <img class="brand-logo dynamic-logo" src="assets/logo-dark.png" alt="May Tea & Coffee logo" />
+      <span>MAY</span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a href="#menu">Menu</a>
+      <a href="#loyalty">Loyalty</a>
+      <a href="#gift-card">Gift Cards</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#visit">Visit</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-button" id="themeToggle" type="button" aria-label="Change theme">
+        <i class="fa-solid fa-sun"></i>
+      </button>
+      <a class="btn ghost desktop-action" id="directionLinkTop" href="#" target="_blank" rel="noreferrer"><i class="fa-solid fa-location-dot"></i> Direction</a>
+      <a class="btn primary desktop-action" id="phoneLinkTop" href="#"><i class="fa-solid fa-phone"></i> Call</a>
+      <button class="icon-button mobile-menu-button" type="button" id="mobileMenuButton" aria-label="Open menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <aside class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+    <button class="icon-button close-drawer" type="button" id="closeMobileDrawer" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+    <nav aria-label="Mobile navigation">
+      <a href="#home">Home</a>
+      <a href="#menu">Menu</a>
+      <a href="#loyalty">Loyalty</a>
+      <a href="#gift-card">Gift Cards</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#visit">Visit</a>
+    </nav>
+  </aside>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="cloud-field" aria-hidden="true">
+        <span class="cloud c1"></span><span class="cloud c2"></span><span class="cloud c3"></span><span class="cloud c4"></span>
+      </div>
+      <div class="hero-grid container reveal">
+        <div class="hero-copy">
+          <p class="eyebrow" id="heroEyebrow"></p>
+          <h1 id="heroTitle"></h1>
+          <p class="hero-description" id="heroDescription"></p>
+          <div class="hero-buttons">
+            <a class="btn primary large" id="heroPrimary" href="#"></a>
+            <a class="btn soft large" id="heroSecondary" href="#"></a>
+          </div>
+          <div class="hero-info" id="storeHours"></div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-photo-card">
+            <img id="heroImage" src="assets/poster-matcha-studio.png" alt="May Tea & Coffee featured matcha drinks" />
+          </div>
+          <div class="floating-chip chip-one"><i class="fa-solid fa-leaf"></i> Premium Matcha</div>
+          <div class="floating-chip chip-two"><i class="fa-solid fa-stamp"></i> 10th Cup Free</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ticker" aria-label="Highlights">
+      <div class="ticker-track">
+        <span>Matcha Latte</span><span>Vietnamese Coffee</span><span>Milk Tea</span><span>Fruit Tea</span><span>Gift Cards</span><span>Loyalty Rewards</span>
+        <span>Matcha Latte</span><span>Vietnamese Coffee</span><span>Milk Tea</span><span>Fruit Tea</span><span>Gift Cards</span><span>Loyalty Rewards</span>
+      </div>
+    </section>
+
+    <section class="section container" id="promotions">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Current Updates</p>
+        <h2>Promotions & announcements</h2>
+        <p>Promotions are controlled from <code>js/config.js</code>. Turn <code>enabled</code> on or off any time.</p>
+      </div>
+      <div class="promo-grid" id="promoGrid"></div>
+    </section>
+
+    <section class="section split-section container" id="loyalty">
+      <div class="split-copy reveal">
+        <p class="eyebrow">Cloud Rewards</p>
+        <h2 id="loyaltyTitle"></h2>
+        <p id="loyaltyDescription"></p>
+        <div class="stamp-card" id="stampCard"></div>
+        <div class="inline-actions">
+          <a class="btn primary" href="#menu"><i class="fa-solid fa-mug-saucer"></i> Start with a drink</a>
+          <a class="btn soft" id="loyaltyPdfLink" href="#" target="_blank" rel="noreferrer"><i class="fa-regular fa-file-pdf"></i> View card PDF</a>
+        </div>
+      </div>
+      <div class="split-image reveal">
+        <img id="loyaltyImage" src="assets/gift-card.png" alt="May Tea & Coffee loyalty card" />
+      </div>
+    </section>
+
+    <section class="section gift-section" id="gift-card">
+      <div class="container gift-grid reveal">
+        <div class="gift-card-preview">
+          <img id="giftCardImage" src="assets/gift-card.png" alt="May Tea & Coffee gift card" />
+        </div>
+        <div>
+          <p class="eyebrow">Easy Gift</p>
+          <h2 id="giftCardTitle"></h2>
+          <p id="giftCardDescription"></p>
+          <a class="btn primary" href="#visit"><i class="fa-solid fa-gift"></i> Ask in store</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container" id="menu">
+      <div class="section-heading reveal">
+        <p class="eyebrow">One Source Menu</p>
+        <h2>Menu</h2>
+        <p>Search, filter by category, and update all menu items from one editable config file.</p>
+      </div>
+
+      <div class="menu-tools reveal">
+        <label class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="search" id="menuSearch" placeholder="Search drinks, matcha, coffee, boba..." />
+        </label>
+        <div class="category-tabs" id="categoryTabs" aria-label="Menu categories"></div>
+      </div>
+
+      <div class="featured-strip reveal" id="featuredStrip"></div>
+      <div class="menu-grid" id="menuGrid"></div>
+    </section>
+
+    <section class="section options-section">
+      <div class="container options-grid reveal">
+        <div>
+          <p class="eyebrow">Customize</p>
+          <h2>Ice, sugar, milk & extras</h2>
+          <p>Clear options help customers choose faster and reduce order mistakes.</p>
+        </div>
+        <div class="option-cards" id="customizationCards"></div>
+      </div>
+      <div class="container extras-panel reveal">
+        <div>
+          <h3>Toppings</h3>
+          <div class="pill-grid" id="toppingGrid"></div>
+        </div>
+        <div>
+          <h3>Syrups</h3>
+          <div class="pill-grid compact" id="syrupGrid"></div>
+        </div>
+        <div>
+          <h3>Sauces</h3>
+          <div class="pill-grid compact" id="sauceGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container" id="gallery">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Visual Updates</p>
+        <h2>Gallery</h2>
+        <p>Replace images in the <code>assets</code> folder and update paths in <code>js/config.js</code>.</p>
+      </div>
+      <div class="gallery-grid" id="galleryGrid"></div>
+    </section>
+
+    <section class="section visit-section" id="visit">
+      <div class="container visit-grid reveal">
+        <div>
+          <p class="eyebrow">Visit Us</p>
+          <h2 id="visitName"></h2>
+          <p id="visitAddress"></p>
+          <div class="visit-actions">
+            <a class="btn primary" id="directionLink" href="#" target="_blank" rel="noreferrer"><i class="fa-solid fa-location-arrow"></i> Get directions</a>
+            <a class="btn soft" id="phoneLink" href="#"><i class="fa-solid fa-phone"></i> Call now</a>
+          </div>
+        </div>
+        <div class="hours-card">
+          <h3>Hours</h3>
+          <div id="visitHours"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="footer-brand"><img class="dynamic-logo" src="assets/logo-dark.png" alt="May Tea & Coffee logo" /><span>May Tea & Coffee</span></div>
+        <p>Tea, coffee, matcha, gift cards, and cloud rewards.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <a href="#menu">Menu</a>
+        <a href="#loyalty">Loyalty</a>
+        <a href="#gift-card">Gift Cards</a>
+      </div>
+      <div id="social">
+        <h4>Social</h4>
+        <div class="social-links" id="socialLinks"></div>
+      </div>
+    </div>
+    <div class="footer-bottom">© <span id="year"></span> May Tea & Coffee. All rights reserved.</div>
+  </footer>
+
+  <nav class="mobile-action-bar" aria-label="Quick actions">
+    <a id="mobileCall" href="#"><i class="fa-solid fa-phone"></i><span>Call</span></a>
+    <a href="#menu"><i class="fa-solid fa-mug-hot"></i><span>Menu</span></a>
+    <a id="mobileDirection" href="#" target="_blank" rel="noreferrer"><i class="fa-solid fa-location-arrow"></i><span>Direction</span></a>
+  </nav>
+
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
