@@ -302,3 +302,238 @@ code { background: color-mix(in srgb, var(--matcha) 20%, transparent); padding: 
   .mobile-action-bar i { font-size: 17px; }
   .site-footer { padding-bottom: 96px; }
 }
+
+/* ===== MAY TEA BLUE MOBILE + LOYALTY/GIFT UPDATE ===== */
+:root {
+  --primary: #174a78;
+  --primary-2: #2e76ad;
+  --matcha: #8fc7f2;
+  --cream: #eef8ff;
+  --cream-2: #ffffff;
+  --ink: #14324a;
+  --muted: #5b7488;
+  --card: rgba(255, 255, 255, 0.86);
+  --border: rgba(23, 74, 120, 0.14);
+  --shadow: 0 24px 70px rgba(23, 74, 120, 0.14);
+}
+body.dark-mode {
+  --primary: #9bd7ff;
+  --primary-2: #60b7f2;
+  --matcha: #174a78;
+  --cream: #081522;
+  --cream-2: #102337;
+  --ink: #f2fbff;
+  --muted: #b8d2e4;
+  --card: rgba(16, 35, 55, 0.84);
+  --border: rgba(155, 215, 255, 0.18);
+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.36);
+}
+body.sunset-mode {
+  --primary: #174a78;
+  --primary-2: #2e76ad;
+  --matcha: #b7dcf7;
+  --cream: #f4fbff;
+  --cream-2: #ffffff;
+  --ink: #14324a;
+  --muted: #5b7488;
+  --card: rgba(255, 255, 255, 0.86);
+  --border: rgba(23, 74, 120, 0.14);
+  --shadow: 0 24px 70px rgba(23, 74, 120, 0.14);
+}
+body {
+  background:
+    radial-gradient(circle at 14% 8%, rgba(143, 199, 242, .40), transparent 28%),
+    radial-gradient(circle at 86% 4%, rgba(189, 225, 249, .52), transparent 30%),
+    linear-gradient(145deg, var(--cream), var(--cream-2));
+}
+.site-loader {
+  background: linear-gradient(145deg, #eef8ff, #ffffff);
+  align-content: center;
+  gap: 18px;
+}
+.loader-logo {
+  width: min(190px, 48vw);
+  height: auto;
+  object-fit: contain;
+  animation: logoFloat 1.9s ease-in-out infinite;
+  filter: drop-shadow(0 18px 30px rgba(23, 74, 120, .16));
+}
+.site-loader p {
+  margin: 0;
+  color: #174a78;
+}
+.loader-cloud { display: none; }
+@keyframes logoFloat { 50% { transform: translateY(-10px) scale(1.02); } }
+
+.announcement-card {
+  width: min(680px, 100%);
+  grid-template-columns: .82fr 1.18fr;
+  transform-style: preserve-3d;
+  animation: modalFlipIn .72s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes modalFlipIn {
+  from { opacity: 0; transform: perspective(1100px) rotateY(-16deg) translateY(18px) scale(.96); }
+  to { opacity: 1; transform: perspective(1100px) rotateY(0) translateY(0) scale(1); }
+}
+.announcement-image-wrap { padding: 20px; background: linear-gradient(145deg, rgba(143,199,242,.32), rgba(255,255,255,.78)); }
+.announcement-image-wrap img { max-height: 260px; box-shadow: 0 18px 44px rgba(23,74,120,.14); }
+.announcement-copy { padding: 34px 30px; }
+.announcement-copy h2 { font-size: clamp(30px, 4vw, 40px); }
+
+.stamp-card {
+  grid-template-columns: repeat(5, 52px);
+  gap: 10px;
+  max-width: 340px;
+  margin: 22px 0;
+  align-items: center;
+}
+.stamp {
+  width: 52px;
+  height: 40px;
+  aspect-ratio: auto;
+  border: 1px dashed rgba(23,74,120,.26);
+  border-radius: 999px;
+  background: rgba(255,255,255,.70);
+  color: rgba(23,74,120,.72);
+  font-size: 20px;
+  box-shadow: inset 0 0 0 4px rgba(143,199,242,.12);
+}
+.stamp-note {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: rgba(23,74,120,.08);
+  color: var(--primary);
+  font-weight: 900;
+}
+.stamp-note span { color: var(--muted); font-size: 13px; font-weight: 700; }
+.split-image img { max-height: 360px; object-fit: contain; padding: 10px; }
+
+.gift-card-preview {
+  perspective: 1200px;
+}
+.gift-card-preview img {
+  transform-style: preserve-3d;
+  animation: giftCardFlip 1.05s ease both;
+  transition: transform .7s ease, box-shadow .3s ease;
+}
+.gift-card-preview:hover img { transform: rotateY(180deg); }
+.gift-card-preview.reveal.visible img,
+.gift-grid.visible .gift-card-preview img { animation: giftCardFlip 1.05s ease both; }
+@keyframes giftCardFlip {
+  from { opacity: 0; transform: perspective(1200px) rotateY(-115deg) scale(.92); }
+  to { opacity: 1; transform: perspective(1200px) rotateY(0deg) scale(1); }
+}
+
+.menu-category { padding: 26px; }
+.drink-list { grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 18px; }
+.drink-card {
+  display: grid;
+  grid-template-columns: 118px 1fr;
+  gap: 16px;
+  min-height: 160px;
+  padding: 14px;
+  background: linear-gradient(145deg, rgba(255,255,255,.86), rgba(232,247,255,.80));
+}
+.drink-photo {
+  width: 118px;
+  height: 132px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: rgba(143,199,242,.16);
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(23,74,120,.10);
+}
+.drink-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .35s ease;
+}
+.drink-card:hover .drink-photo img { transform: scale(1.06); }
+.placeholder-drink { color: var(--primary); font-size: 30px; }
+.drink-content { min-width: 0; display: flex; flex-direction: column; justify-content: space-between; }
+.drink-top { align-items: flex-start; gap: 10px; }
+.price { font-size: 13px; white-space: normal; min-width: 72px; }
+.drink-card p { margin: 9px 0 12px; }
+.drink-img { display: none; }
+
+.extras-panel { grid-template-columns: 1.4fr 1fr .8fr; }
+#toppingGrid.pill-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.topping-card {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.70);
+  border: 1px solid var(--border);
+}
+.topping-card img {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  object-fit: cover;
+  background: rgba(143,199,242,.12);
+}
+.topping-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(143,199,242,.18);
+  color: var(--primary);
+}
+.topping-card strong { display: block; color: var(--ink); font-size: 13px; line-height: 1.2; }
+.topping-card span { display: block; color: var(--primary); font-weight: 900; font-size: 12px; margin-top: 3px; }
+.topping-card.new::after { content: 'NEW'; position: absolute; }
+.topping-card { position: relative; }
+.topping-card.new::after {
+  top: 6px; right: 6px; font-size: 9px; font-weight: 900; color: #fff; background: var(--primary); border-radius: 999px; padding: 3px 5px;
+}
+
+@media (max-width: 940px) {
+  .hero-grid { gap: 28px; }
+  .hero-photo-card img { height: 360px; }
+  .section { padding: 72px 0; }
+}
+@media (max-width: 640px) {
+  .container { width: min(100% - 20px, 1180px); }
+  .site-header { width: calc(100% - 16px); height: 60px; top: 8px; padding: 8px 9px 8px 13px; }
+  .brand-logo { width: 42px; height: 42px; }
+  .icon-button { width: 40px; height: 40px; }
+  .hero { padding: 100px 0 36px; }
+  h1 { font-size: 44px; letter-spacing: -.04em; }
+  .hero-copy .eyebrow { font-size: 11px; }
+  .hero-photo-card { border-radius: 28px; transform: none; }
+  .hero-photo-card img { height: 310px; }
+  .floating-chip { font-size: 12px; padding: 10px 12px; }
+  .section-heading h2, .split-copy h2, .gift-grid h2, .visit-grid h2, .options-grid h2 { font-size: 34px; }
+  .announcement-modal { padding: 12px; align-items: end; }
+  .announcement-card { grid-template-columns: 1fr; max-height: 86vh; border-radius: 28px 28px 20px 20px; }
+  .announcement-image-wrap { padding: 14px; }
+  .announcement-image-wrap img { max-height: 190px; }
+  .announcement-copy { padding: 24px 20px 22px; }
+  .announcement-copy h2 { font-size: 28px; }
+  .announcement-copy .btn { width: 100%; }
+  .stamp-card { grid-template-columns: repeat(5, 42px); gap: 8px; max-width: 250px; }
+  .stamp { width: 42px; height: 33px; font-size: 17px; }
+  .stamp-note { display: block; padding: 11px 12px; font-size: 14px; }
+  .stamp-note span { display: block; margin-top: 4px; }
+  .drink-list { grid-template-columns: 1fr; }
+  .drink-card { grid-template-columns: 96px 1fr; gap: 12px; padding: 12px; border-radius: 20px; }
+  .drink-photo { width: 96px; height: 116px; border-radius: 18px; }
+  .drink-card h4 { font-size: 16px; }
+  .price { font-size: 12px; }
+  #toppingGrid.pill-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .extras-panel { padding: 16px; }
+  .topping-card { grid-template-columns: 40px 1fr; padding: 8px; }
+  .topping-card img, .topping-icon { width: 40px; height: 40px; }
+}
