@@ -32,7 +32,7 @@ window.MAYTEA_CONFIG = {
     message: "Collect one cloud stamp for every drink. Fill the loyalty card and redeem one free drink on your 10th cup.",
     buttonText: "View loyalty card",
     buttonLink: "#loyalty",
-    image: "assets/gift-card.png",
+    image: "assets/gift-card-3.png",
     showOncePerVisit: false
   },
 
@@ -45,7 +45,7 @@ window.MAYTEA_CONFIG = {
       description: "Buy 9 drinks, collect 9 cloud stamps, and enjoy your 10th drink free.",
       cta: "See details",
       link: "#loyalty",
-      image: "assets/gift-card.png"
+      image: "assets/gift-card-3.png"
     },
     {
       id: "trial-opening-30",
@@ -202,8 +202,8 @@ window.MAYTEA_CONFIG = {
     { name: "Blueberry Popping", price: 0.75, group: "Popping" },
     { name: "Passion Fruit Popping", price: 0.75, group: "Popping" },
     { name: "Mango Popping", price: 0.75, group: "Popping" },
-    { name: "Green Apple Popping", price: 0.75, group: "Popping", tag: "new" },
-    { name: "Yogurt Popping", price: 0.75, group: "Popping", tag: "new" },
+    { name: "Green Apple Popping", price: 0.75, group: "Popping", tag: "new", image: "assets/menu-reference.png" },
+    { name: "Yogurt Popping", price: 0.75, group: "Popping", tag: "new", image: "assets/menu-reference.png" },
     { name: "Sea Salt Milk Foam", price: 0.75, group: "Cream" },
     { name: "Whipping Cream", price: 0.75, group: "Cream" },
     { name: "Egg Cream Foam", price: 0.75, group: "Cream" },
@@ -230,15 +230,14 @@ window.MAYTEA_CONFIG = {
       enabled: true,
       title: "Gift Cards",
       description: "A simple gift for matcha, tea, and coffee lovers. Ask at the register to purchase or reload a May Tea & Coffee gift card.",
-      image: "assets/gift-card.png"
+      image: "assets/gift-card-3.png"
     },
     loyalty: {
       enabled: true,
       title: "Loyalty Card",
       description: "Fill the clouds with stamps. Receive one stamp per drink and earn a free drink on your 10th cup.",
-      image: "assets/gift-card.png",
-      pdf: "assets/loyalty-card.pdf",
-      stampGoal: 9
+      image: "assets/gift-card-3.png",
+      stampGoal: 10
     }
   },
 
@@ -256,3 +255,4 @@ window.MAYTEA_CONFIG = {
     googleReview: "#"
   }
 };
+
