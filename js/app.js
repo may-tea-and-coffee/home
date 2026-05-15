@@ -95,9 +95,8 @@ function renderCards() {
     setText('loyaltyTitle', config.cards.loyalty.title);
     setText('loyaltyDescription', config.cards.loyalty.description);
     $('#loyaltyImage').src = config.cards.loyalty.image;
-    $('#loyaltyPdfLink').href = config.cards.loyalty.pdf;
-    const stamps = Array.from({ length: config.cards.loyalty.stampGoal }, (_, index) => `<div class="stamp">${index + 1}</div>`).join('');
-    $('#stampCard').innerHTML = `${stamps}<div class="stamp free"><i class="fa-solid fa-gift"></i>&nbsp; FREE DRINK</div>`;
+    const stamps = Array.from({ length: config.cards.loyalty.stampGoal }, (_, index) => `<div class="stamp" aria-label="Stamp ${index + 1}"><i class="fa-solid fa-cloud"></i></div>`).join('');
+    $('#stampCard').innerHTML = `${stamps}<div class="stamp-note"><strong>10th cup free</strong><span>Ask for a cloud stamp at checkout.</span></div>`;
   }
   if (config.cards.gift.enabled) {
     setText('giftCardTitle', config.cards.gift.title);
@@ -142,14 +141,16 @@ function renderMenu() {
       </div>
       <div class="drink-list">
         ${cat.items.map(item => `
-          <article class="drink-card">
-            ${item.image ? `<img class="drink-img" src="${item.image}" alt="">` : ''}
-            <div class="drink-top">
-              <h4>${item.name}</h4>
-              <div class="price">${formatPrice(item.price)}</div>
+          <article class="drink-card ${item.image ? 'has-image' : ''}">
+            ${item.image ? `<div class="drink-photo"><img src="${item.image}" alt="${item.name}"></div>` : `<div class="drink-photo placeholder-drink"><i class="fa-solid fa-mug-hot"></i></div>`}
+            <div class="drink-content">
+              <div class="drink-top">
+                <h4>${item.name}</h4>
+                <div class="price">${formatPrice(item.price)}</div>
+              </div>
+              <p>${item.desc || 'Handcrafted drink.'}</p>
+              <div class="badges">${(item.tags || []).map(tag => `<span class="badge">${tag}</span>`).join('')}</div>
             </div>
-            <p>${item.desc || 'Handcrafted drink.'}</p>
-            <div class="badges">${(item.tags || []).map(tag => `<span class="badge">${tag}</span>`).join('')}</div>
           </article>
         `).join('')}
       </div>
@@ -168,7 +169,12 @@ function renderCustomization() {
     <div class="option-card"><i class="fa-solid ${card.icon}"></i><div><h3>${card.title}</h3><p>${card.text}</p></div></div>
   `).join('');
 
-  $('#toppingGrid').innerHTML = config.toppings.map(t => `<span class="pill ${t.tag === 'new' ? 'new' : ''}">${t.name} +${money(t.price)}</span>`).join('');
+  $('#toppingGrid').innerHTML = config.toppings.map(t => `
+    <article class="topping-card ${t.tag === 'new' ? 'new' : ''}">
+      ${t.image ? `<img src="${t.image}" alt="${t.name}">` : `<div class="topping-icon"><i class="fa-solid fa-circle"></i></div>`}
+      <div><strong>${t.name}</strong><span>+${money(t.price)}</span></div>
+    </article>
+  `).join('');
   $('#syrupGrid').innerHTML = config.syrups.map(s => `<span class="pill">${s} +$0.50</span>`).join('');
   $('#sauceGrid').innerHTML = config.sauces.map(s => `<span class="pill">${s} +$0.75</span>`).join('');
 }
@@ -218,10 +224,17 @@ function initAnnouncement() {
     sessionStorage.setItem('maytea-announcement-seen', '1');
   }, 1150);
 
-  $$('[data-close-announcement]').forEach(el => el.addEventListener('click', () => {
+  const closeAnnouncement = () => {
     $('#announcementModal').hidden = true;
     document.body.classList.remove('modal-open');
-  }));
+  };
+
+  $$('[data-close-announcement]').forEach(el => el.addEventListener('click', closeAnnouncement));
+  $('#announcementButton').addEventListener('click', () => {
+    closeAnnouncement();
+    const target = document.querySelector(a.buttonLink);
+    if (target) setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+  });
 }
 
 function initMobileMenu() {
@@ -284,3 +297,4 @@ function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
