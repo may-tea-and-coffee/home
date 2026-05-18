@@ -24,37 +24,28 @@ function setLinks() {
     const el = document.getElementById(id);
     if (el) el.href = phoneHref;
   });
+
   ['directionLinkTop', 'directionLink', 'mobileDirection'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.href = config.store.mapUrl;
   });
+
+  setText('footerAddress', config.store.address);
+  setText('footerPhone', config.store.phoneDisplay);
+  setText('footerEmail', config.store.email);
 }
 
-function applyTheme(mode) {
+function applyTheme() {
   document.body.classList.remove('dark-mode', 'sunset-mode');
-  if (mode === 'dark') document.body.classList.add('dark-mode');
-  if (mode === 'sunset') document.body.classList.add('sunset-mode');
-
-  const icon = $('#themeToggle i');
-  if (icon) icon.className = mode === 'dark' ? 'fa-solid fa-moon' : mode === 'sunset' ? 'fa-solid fa-cloud-sun' : 'fa-solid fa-sun';
-
-  const logo = mode === 'dark' ? 'assets/logo-light.png' : mode === 'sunset' ? 'assets/logo-sunset.png' : 'assets/logo-dark.png';
-  $$('.dynamic-logo').forEach(img => { img.src = logo; });
-  localStorage.setItem('maytea-theme', mode);
+  $$('.dynamic-logo').forEach(img => {
+    img.src = 'assets/logo-dark.png';
+  });
 }
 
 function initTheme() {
-  const saved = localStorage.getItem('maytea-theme') || config.theme.defaultMode;
-  applyTheme(saved);
-  if (config.theme.allowThemeSwitch) {
-    $('#themeToggle').addEventListener('click', () => {
-      const current = document.body.classList.contains('dark-mode') ? 'dark' : document.body.classList.contains('sunset-mode') ? 'sunset' : 'light';
-      const next = current === 'light' ? 'sunset' : current === 'sunset' ? 'dark' : 'light';
-      applyTheme(next);
-    });
-  } else {
-    $('#themeToggle').hidden = true;
-  }
+  applyTheme();
+  const themeButton = $('#themeToggle');
+  if (themeButton) themeButton.remove();
 }
 
 function renderHero() {
@@ -67,47 +58,70 @@ function renderHero() {
   $('#heroSecondary').href = config.hero.secondaryButton.link;
   $('#heroImage').src = config.hero.image;
 
-  $('#storeHours').innerHTML = config.store.hours.map(hour => `<span class="hours-pill"><strong>${hour.day}</strong> · ${hour.time}</span>`).join('');
+  $('#storeHours').innerHTML = config.store.hours
+    .map(hour => `<span class="hours-pill"><strong>${hour.day}</strong> · ${hour.time}</span>`)
+    .join('');
 }
 
 function renderPromotions() {
   const promos = config.promotions.filter(p => p.enabled);
   const grid = $('#promoGrid');
+  if (!grid) return;
+
   if (!promos.length) {
-    grid.innerHTML = `<div class="promo-card"><div class="promo-card-body"><span class="promo-label">No public promotion</span><h3>Promotions are hidden</h3><p>Turn a promotion on in js/config.js when you are ready to show it.</p></div></div>`;
+    grid.innerHTML = '';
     return;
   }
+
   grid.innerHTML = promos.map(p => `
-    <article class="promo-card reveal">
-      <img src="${p.image}" alt="${p.title}">
-      <div class="promo-card-body">
-        <span class="promo-label">${p.label}</span>
-        <h3>${p.title}</h3>
-        <p>${p.description}</p>
-        <a class="btn soft" href="${p.link}">${p.cta}</a>
+    <article class="promo-card flip-promo-card reveal" tabindex="0" role="button" aria-label="Flip promotion card">
+      <div class="promo-inner">
+        <div class="promo-face promo-front">
+          <img src="${p.image}" alt="${p.title}">
+          <div class="promo-card-body">
+            <span class="promo-label">${p.label}</span>
+            <h3>${p.title}</h3>
+            <p>${p.description}</p>
+            <span class="tap-note"><i class="fa-solid fa-hand-pointer"></i> Tap to flip</span>
+          </div>
+        </div>
+
+        <div class="promo-face promo-back">
+          <div class="cloud-stamp-preview">
+            ${Array.from({ length: 10 }, (_, i) => `
+              <span class="mini-cloud-stamp ${i === 9 ? 'free-stamp' : ''}">
+                <i class="fa-solid ${i === 9 ? 'fa-gift' : 'fa-cloud'}"></i>
+              </span>
+            `).join('')}
+          </div>
+
+          <span class="promo-label">${p.backTitle || 'Details'}</span>
+          <h3>${p.title}</h3>
+          <p>${p.backDescription || p.description}</p>
+          <a class="btn primary" href="${p.link}">${p.cta}</a>
+        </div>
       </div>
     </article>
   `).join('');
+
+  initFlipCards();
 }
 
 function renderCards() {
-  if (config.cards.loyalty.enabled) {
-    setText('loyaltyTitle', config.cards.loyalty.title);
-    setText('loyaltyDescription', config.cards.loyalty.description);
-    $('#loyaltyImage').src = config.cards.loyalty.image;
-    const stamps = Array.from({ length: config.cards.loyalty.stampGoal }, (_, index) => `<div class="stamp" aria-label="Stamp ${index + 1}"><i class="fa-solid fa-cloud"></i></div>`).join('');
-    $('#stampCard').innerHTML = `${stamps}<div class="stamp-note"><strong>10th cup free</strong><span>Ask for a cloud stamp at checkout.</span></div>`;
-  }
   if (config.cards.gift.enabled) {
     setText('giftCardTitle', config.cards.gift.title);
     setText('giftCardDescription', config.cards.gift.description);
-    $('#giftCardImage').src = config.cards.gift.image;
+    const giftImage = $('#giftCardImage');
+    if (giftImage) giftImage.src = config.cards.gift.image;
   }
 }
 
 function renderTabs() {
   const tabs = [{ id: 'all', title: 'All' }, ...config.menu.map(c => ({ id: c.id, title: c.title }))];
-  $('#categoryTabs').innerHTML = tabs.map(t => `<button class="tab-button ${t.id === activeCategory ? 'active' : ''}" data-category="${t.id}">${t.title}</button>`).join('');
+  $('#categoryTabs').innerHTML = tabs
+    .map(t => `<button class="tab-button ${t.id === activeCategory ? 'active' : ''}" data-category="${t.id}">${t.title}</button>`)
+    .join('');
+
   $$('.tab-button').forEach(btn => btn.addEventListener('click', () => {
     activeCategory = btn.dataset.category;
     renderTabs();
@@ -116,7 +130,47 @@ function renderTabs() {
 }
 
 function renderFeatured() {
-  $('#featuredStrip').innerHTML = config.featuredDrinks.map(name => `<span class="featured-chip"><i class="fa-solid fa-star"></i> ${name}</span>`).join('');
+  $('#featuredStrip').innerHTML = config.featuredDrinks
+    .map(name => `<span class="featured-chip"><i class="fa-solid fa-star"></i> ${name}</span>`)
+    .join('');
+}
+
+function getAllMenuItems() {
+  return config.menu.flatMap(category =>
+    category.items.map(item => ({
+      ...item,
+      categoryTitle: category.title
+    }))
+  );
+}
+
+function renderTopDrinks() {
+  const grid = $('#topDrinksGrid');
+  if (!grid) return;
+
+  const allItems = getAllMenuItems();
+  const topItems = config.featuredDrinks
+    .map(name => allItems.find(item => item.name.toLowerCase() === name.toLowerCase()))
+    .filter(Boolean)
+    .slice(0, 6);
+
+  grid.innerHTML = topItems.map(item => `
+    <article class="top-drink-card reveal">
+      <div class="top-drink-image">
+        ${item.image
+          ? `<img src="${item.image}" alt="${item.name}">`
+          : `<i class="fa-solid fa-mug-hot"></i>`
+        }
+      </div>
+
+      <div class="top-drink-copy">
+        <span>${item.categoryTitle}</span>
+        <h3>${item.name}</h3>
+        <p>${item.desc || 'Handcrafted drink.'}</p>
+        <strong>${formatPrice(item.price)}</strong>
+      </div>
+    </article>
+  `).join('');
 }
 
 function itemMatches(item, category) {
@@ -156,54 +210,93 @@ function renderMenu() {
       </div>
     </section>
   `).join('') : `<div class="menu-category"><h3>No matching drinks</h3><p>Try another keyword or category.</p></div>`;
+
   observeReveals();
 }
 
 function renderCustomization() {
-  const custom = config.customization;
-  $('#customizationCards').innerHTML = [
-    { icon: 'fa-snowflake', title: 'Ice Level', text: custom.ice.join(' • ') },
-    { icon: 'fa-cubes-stacked', title: 'Sugar Level', text: custom.sugar.join(' • ') },
-    { icon: 'fa-leaf', title: 'Milk Options', text: custom.milk.join(' • ') }
-  ].map(card => `
-    <div class="option-card"><i class="fa-solid ${card.icon}"></i><div><h3>${card.title}</h3><p>${card.text}</p></div></div>
-  `).join('');
-
   $('#toppingGrid').innerHTML = config.toppings.map(t => `
     <article class="topping-card ${t.tag === 'new' ? 'new' : ''}">
       ${t.image ? `<img src="${t.image}" alt="${t.name}">` : `<div class="topping-icon"><i class="fa-solid fa-circle"></i></div>`}
       <div><strong>${t.name}</strong><span>+${money(t.price)}</span></div>
     </article>
   `).join('');
+
   $('#syrupGrid').innerHTML = config.syrups.map(s => `<span class="pill">${s} +$0.50</span>`).join('');
   $('#sauceGrid').innerHTML = config.sauces.map(s => `<span class="pill">${s} +$0.75</span>`).join('');
 }
 
-function renderGallery() {
-  $('#galleryGrid').innerHTML = config.gallery.map(g => `
-    <figure class="gallery-item reveal">
-      <img src="${g.src}" alt="${g.alt}">
-      <figcaption class="gallery-caption">${g.alt}</figcaption>
-    </figure>
-  `).join('');
-}
-
-function renderVisit() {
-  setText('visitName', config.store.name);
-  setText('visitAddress', config.store.address);
-  $('#visitHours').innerHTML = config.store.hours.map(hour => `<div class="hour-row"><span>${hour.day}</span><span>${hour.time}</span></div>`).join('');
-}
-
 function renderSocial() {
+  const socialWrap = $('#socialLinks');
+  if (!socialWrap) return;
+
   const socials = [
     ['instagram', 'fa-instagram'],
     ['tiktok', 'fa-tiktok'],
     ['facebook', 'fa-facebook-f'],
     ['googleReview', 'fa-google']
   ];
-  $('#socialLinks').innerHTML = socials
+
+  socialWrap.innerHTML = socials
     .filter(([key]) => config.social[key])
-    .map(([key, icon]) => `<a href="${config.social[key]}" target="_blank" rel="noreferrer" aria-label="${key}"><i class="fa-brands ${icon}"></i></a>`).join('');
+    .map(([key, icon]) => `<a href="${config.social[key]}" target="_blank" rel="noreferrer" aria-label="${key}"><i class="fa-brands ${icon}"></i></a>`)
+    .join('');
+}
+
+function openHomePanel(panelName) {
+  $$('.home-tab').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.panel === panelName);
+  });
+
+  $$('.compact-panel').forEach(section => {
+    section.classList.toggle('active', section.dataset.panelSection === panelName);
+  });
+
+  const target = document.querySelector(`[data-panel-section="${panelName}"]`);
+  if (target) {
+    setTimeout(() => {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 60);
+  }
+
+  observeReveals();
+}
+
+function initHomePanels() {
+  $$('.home-tab').forEach(btn => {
+    btn.addEventListener('click', () => openHomePanel(btn.dataset.panel));
+  });
+
+  $$('[data-open-panel]').forEach(btn => {
+    btn.addEventListener('click', () => openHomePanel(btn.dataset.openPanel));
+  });
+}
+
+function initFlipCards() {
+  $$('.flip-promo-card').forEach(card => {
+    card.addEventListener('click', event => {
+      if (event.target.closest('a')) return;
+      card.classList.toggle('flipped');
+    });
+
+    card.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        card.classList.toggle('flipped');
+      }
+    });
+  });
+
+  $$('.flip-gift-card').forEach(card => {
+    card.addEventListener('click', () => card.classList.toggle('flipped'));
+
+    card.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        card.classList.toggle('flipped');
+      }
+    });
+  });
 }
 
 function initAnnouncement() {
@@ -218,58 +311,85 @@ function initAnnouncement() {
   $('#announcementButton').href = a.buttonLink;
   $('#announcementImage').src = a.image;
 
+  const closeAnnouncement = () => {
+    $('#announcementModal').hidden = true;
+    document.body.classList.remove('modal-open');
+    $('#announcementCard')?.classList.remove('flipped');
+  };
+
+  const viewAnnouncementTarget = (event) => {
+    if (event) event.preventDefault();
+    closeAnnouncement();
+    const panelName = a.buttonLink.replace('#', '');
+    openHomePanel(panelName);
+    const target = document.querySelector(a.buttonLink);
+    if (target) {
+      setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    }
+  };
+
   setTimeout(() => {
     $('#announcementModal').hidden = false;
     document.body.classList.add('modal-open');
     sessionStorage.setItem('maytea-announcement-seen', '1');
-  }, 1150);
-
-  const closeAnnouncement = () => {
-    $('#announcementModal').hidden = true;
-    document.body.classList.remove('modal-open');
-  };
+  }, 800);
 
   $$('[data-close-announcement]').forEach(el => el.addEventListener('click', closeAnnouncement));
-  $('#announcementButton').addEventListener('click', () => {
-    closeAnnouncement();
-    const target = document.querySelector(a.buttonLink);
-    if (target) setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
-  });
+  $('#announcementButton').addEventListener('click', viewAnnouncementTarget);
+  $('#announcementViewFromBack').addEventListener('click', viewAnnouncementTarget);
+  $('#announcementFlipButton').addEventListener('click', () => $('#announcementCard').classList.toggle('flipped'));
 }
 
 function initMobileMenu() {
   const drawer = $('#mobileDrawer');
-  $('#mobileMenuButton').addEventListener('click', () => {
+  const open = () => {
     drawer.classList.add('open');
     drawer.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('drawer-open');
-  });
-  $('#closeMobileDrawer').addEventListener('click', closeDrawer);
-  $$('#mobileDrawer a').forEach(a => a.addEventListener('click', closeDrawer));
-  function closeDrawer() {
+  };
+  const close = () => {
     drawer.classList.remove('open');
     drawer.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('drawer-open');
-  }
+  };
+
+  $('#mobileMenuButton')?.addEventListener('click', open);
+  $('#closeMobileDrawer')?.addEventListener('click', close);
+  $$('#mobileDrawer a').forEach(link => link.addEventListener('click', close));
 }
 
 function initSearch() {
-  $('#menuSearch').addEventListener('input', (event) => {
+  const search = $('#menuSearch');
+  if (!search) return;
+
+  search.addEventListener('input', event => {
     searchTerm = event.target.value.trim();
     renderMenu();
   });
 }
 
-let revealObserver;
 function observeReveals() {
-  if (!revealObserver) {
-    revealObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.12 });
+  const reveals = $$('.reveal:not(.visible)');
+  if (!('IntersectionObserver' in window)) {
+    reveals.forEach(el => el.classList.add('visible'));
+    return;
   }
-  $$('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.14 });
+
+  reveals.forEach(el => observer.observe(el));
+}
+
+function initHeaderScroll() {
+  const header = $('#siteHeader');
+  const setState = () => header.classList.toggle('scrolled', window.scrollY > 18);
+  setState();
+  window.addEventListener('scroll', setState, { passive: true });
 }
 
 function init() {
@@ -278,16 +398,18 @@ function init() {
   renderHero();
   renderPromotions();
   renderCards();
+  renderTopDrinks();
   renderTabs();
   renderFeatured();
   renderMenu();
   renderCustomization();
-  renderGallery();
-  renderVisit();
   renderSocial();
+  initHomePanels();
   initAnnouncement();
   initMobileMenu();
   initSearch();
+  initFlipCards();
+  initHeaderScroll();
   setText('year', new Date().getFullYear());
   observeReveals();
 
@@ -296,5 +418,4 @@ function init() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', init);
-
+init();
