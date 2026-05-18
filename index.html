@@ -20,18 +20,45 @@
 
   <div class="announcement-modal" id="announcementModal" role="dialog" aria-modal="true" aria-labelledby="announcementTitle" hidden>
     <div class="announcement-backdrop" data-close-announcement></div>
-    <article class="announcement-card">
+    <article class="announcement-card flip-popup-card" id="announcementCard">
       <button class="icon-button close-announcement" type="button" data-close-announcement aria-label="Close announcement">
         <i class="fa-solid fa-xmark"></i>
       </button>
-      <div class="announcement-image-wrap">
-        <img id="announcementImage" src="" alt="Announcement" />
-      </div>
-      <div class="announcement-copy">
-        <p class="eyebrow" id="announcementTitle"></p>
-        <h2 id="announcementHeadline"></h2>
-        <p id="announcementMessage"></p>
-        <a id="announcementButton" class="btn primary" href="#"></a>
+
+      <div class="announcement-inner">
+        <div class="announcement-face announcement-front">
+          <div class="announcement-image-wrap">
+            <img id="announcementImage" src="" alt="Announcement" />
+          </div>
+          <div class="announcement-copy">
+            <p class="eyebrow" id="announcementTitle"></p>
+            <h2 id="announcementHeadline"></h2>
+            <p id="announcementMessage"></p>
+            <div class="announcement-actions">
+              <a id="announcementButton" class="btn primary" href="#"></a>
+              <button class="btn soft" type="button" id="announcementFlipButton">Flip card</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="announcement-face announcement-back">
+          <p class="eyebrow">Cloud Stamp Card</p>
+          <h2>Collect 10 cloud stamps</h2>
+          <div class="cloud-stamp-preview popup-stamps" aria-label="10 cloud stamps">
+            <span class="mini-cloud-stamp"><i class="fa-solid fa-cloud"></i></span>
+            <span class="mini-cloud-stamp"><i class="fa-solid fa-cloud"></i></span>
+            <span class="mini-cloud-stamp"><i class="fa-solid fa-cloud"></i></span>
+            <span class="mini-cloud-stamp"><i class="fa-solid fa-cloud"></i></span>
+            <span class="mini-cloud-stamp"><i class="fa-solid fa-cloud"></i></span>
+            <span class="mini-cloud-stamp"><i class="fa-solid fa-cloud"></i></span>
+            <span class="mini-cloud-stamp"><i class="fa-solid fa-cloud"></i></span>
+            <span class="mini-cloud-stamp"><i class="fa-solid fa-cloud"></i></span>
+            <span class="mini-cloud-stamp"><i class="fa-solid fa-cloud"></i></span>
+            <span class="mini-cloud-stamp free-stamp"><i class="fa-solid fa-gift"></i></span>
+          </div>
+          <p>Buy 9 drinks, collect stamps, and redeem the 10th drink free in store.</p>
+          <button class="btn primary" type="button" id="announcementViewFromBack">View loyalty card</button>
+        </div>
       </div>
     </article>
   </div>
@@ -43,17 +70,13 @@
     </a>
 
     <nav class="desktop-nav" aria-label="Main navigation">
-      <a href="#menu">Menu</a>
-      <a href="#loyalty">Loyalty</a>
-      <a href="#gift-card">Gift Cards</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#visit">Visit</a>
+      <a href="#promotions">Promotions</a>
+      <a href="#top-drinks">Top Drinks</a>
+      <a href="#gift-card">Gift Card</a>
+      <a href="#full-menu">Full Menu</a>
     </nav>
 
     <div class="header-actions">
-      <button class="icon-button" id="themeToggle" type="button" aria-label="Change theme">
-        <i class="fa-solid fa-sun"></i>
-      </button>
       <a class="btn ghost desktop-action" id="directionLinkTop" href="#" target="_blank" rel="noreferrer"><i class="fa-solid fa-location-dot"></i> Direction</a>
       <a class="btn primary desktop-action" id="phoneLinkTop" href="#"><i class="fa-solid fa-phone"></i> Call</a>
       <button class="icon-button mobile-menu-button" type="button" id="mobileMenuButton" aria-label="Open menu">
@@ -66,91 +89,126 @@
     <button class="icon-button close-drawer" type="button" id="closeMobileDrawer" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
     <nav aria-label="Mobile navigation">
       <a href="#home">Home</a>
-      <a href="#menu">Menu</a>
-      <a href="#loyalty">Loyalty</a>
-      <a href="#gift-card">Gift Cards</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#visit">Visit</a>
+      <a href="#promotions">Promotions</a>
+      <a href="#top-drinks">Top Drinks</a>
+      <a href="#gift-card">Gift Card</a>
+      <a href="#full-menu">Full Menu</a>
     </nav>
   </aside>
 
   <main>
-    <section class="hero" id="home">
+    <section class="hero compact-hero" id="home">
       <div class="cloud-field" aria-hidden="true">
-        <span class="cloud c1"></span><span class="cloud c2"></span><span class="cloud c3"></span><span class="cloud c4"></span>
+        <span class="cloud c1"></span>
+        <span class="cloud c2"></span>
+        <span class="cloud c3"></span>
+        <span class="cloud c4"></span>
       </div>
+
       <div class="hero-grid container reveal">
         <div class="hero-copy">
           <p class="eyebrow" id="heroEyebrow"></p>
           <h1 id="heroTitle"></h1>
           <p class="hero-description" id="heroDescription"></p>
+
           <div class="hero-buttons">
-            <a class="btn primary large" id="heroPrimary" href="#"></a>
-            <a class="btn soft large" id="heroSecondary" href="#"></a>
+            <a class="btn primary large" id="heroPrimary" href="#top-drinks"></a>
+            <a class="btn soft large" id="heroSecondary" href="#full-menu"></a>
           </div>
+
           <div class="hero-info" id="storeHours"></div>
         </div>
+
         <div class="hero-visual">
           <div class="hero-photo-card">
-            <img id="heroImage" src="assets/poster-matcha-studio.png" alt="May Tea & Coffee featured matcha drinks" />
+            <img id="heroImage" src="assets/poster-matcha-studio.png" alt="May Tea & Coffee drinks" />
           </div>
-          <div class="floating-chip chip-one"><i class="fa-solid fa-leaf"></i> Premium Matcha</div>
-          <div class="floating-chip chip-two"><i class="fa-solid fa-stamp"></i> 10th Cup Free</div>
         </div>
       </div>
     </section>
 
-    <section class="ticker" aria-label="Highlights">
-      <div class="ticker-track">
-        <span>Matcha Latte</span><span>Vietnamese Coffee</span><span>Milk Tea</span><span>Fruit Tea</span><span>Gift Cards</span><span>Loyalty Rewards</span>
-        <span>Matcha Latte</span><span>Vietnamese Coffee</span><span>Milk Tea</span><span>Fruit Tea</span><span>Gift Cards</span><span>Loyalty Rewards</span>
-      </div>
+    <section class="home-switcher container reveal" aria-label="Homepage sections">
+      <button class="home-tab active" type="button" data-panel="promotions">
+        <i class="fa-solid fa-stamp"></i>
+        Promotions
+      </button>
+
+      <button class="home-tab" type="button" data-panel="top-drinks">
+        <i class="fa-solid fa-mug-hot"></i>
+        Top Drinks
+      </button>
+
+      <button class="home-tab" type="button" data-panel="gift-card">
+        <i class="fa-solid fa-gift"></i>
+        Gift Card
+      </button>
+
+      <button class="home-tab" type="button" data-panel="full-menu">
+        <i class="fa-solid fa-list"></i>
+        Full Menu
+      </button>
     </section>
 
-    <section class="section container" id="promotions">
+    <section class="section container compact-panel active" id="promotions" data-panel-section="promotions">
       <div class="section-heading reveal">
-        <p class="eyebrow">Current Updates</p>
-        <h2>Promotions & announcements</h2>
-        <p>Fresh updates, rewards, and limited-time shop announcements.</p>
+        <p class="eyebrow">Cloud Rewards</p>
+        <h2>Promotions</h2>
+        <p>Tap the loyalty card to flip and view the back side.</p>
       </div>
+
       <div class="promo-grid" id="promoGrid"></div>
     </section>
 
-    <section class="section split-section container" id="loyalty">
-      <div class="split-copy reveal">
-        <p class="eyebrow">Cloud Rewards</p>
-        <h2 id="loyaltyTitle"></h2>
-        <p id="loyaltyDescription"></p>
-        <div class="stamp-card" id="stampCard"></div>
-        <div class="inline-actions">
-          <a class="btn primary" href="#menu"><i class="fa-solid fa-mug-saucer"></i> Start with a drink</a>
-
-        </div>
+    <section class="section container compact-panel" id="top-drinks" data-panel-section="top-drinks">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Customer Favorites</p>
+        <h2>Top Drinks</h2>
+        <p>A short featured list for customers who want to choose quickly.</p>
       </div>
-      <div class="split-image reveal">
-        <img id="loyaltyImage" src="assets/gift-card.png" alt="May Tea & Coffee loyalty card" />
+
+      <div class="top-drinks-grid" id="topDrinksGrid"></div>
+
+      <div class="center-action">
+        <button class="btn primary large" type="button" data-open-panel="full-menu">
+          <i class="fa-solid fa-list"></i>
+          View full menu
+        </button>
       </div>
     </section>
 
-    <section class="section gift-section" id="gift-card">
+    <section class="section gift-section compact-panel" id="gift-card" data-panel-section="gift-card">
       <div class="container gift-grid reveal">
-        <div class="gift-card-preview">
-          <img id="giftCardImage" src="assets/gift-card.png" alt="May Tea & Coffee gift card" />
+        <div class="gift-card-preview flip-gift-card" tabindex="0" aria-label="Flip gift card">
+          <div class="gift-card-inner">
+            <div class="gift-card-face gift-card-front">
+              <img id="giftCardImage" src="assets/gift-card-3.png" alt="May Tea & Coffee gift card front" />
+            </div>
+
+            <div class="gift-card-face gift-card-back">
+              <h3>May Tea & Coffee</h3>
+              <p>Gift cards are available in store.</p>
+              <span>Ask our team at checkout.</span>
+            </div>
+          </div>
         </div>
+
         <div>
           <p class="eyebrow">Easy Gift</p>
           <h2 id="giftCardTitle"></h2>
           <p id="giftCardDescription"></p>
-          <a class="btn primary" href="#visit"><i class="fa-solid fa-gift"></i> Ask in store</a>
+          <a class="btn primary" id="phoneLink" href="#">
+            <i class="fa-solid fa-phone"></i>
+            Ask in store
+          </a>
         </div>
       </div>
     </section>
 
-    <section class="section container" id="menu">
+    <section class="section container compact-panel" id="full-menu" data-panel-section="full-menu">
       <div class="section-heading reveal">
         <p class="eyebrow">One Source Menu</p>
-        <h2>Menu</h2>
-        <p>Browse drinks by category, search by flavor, and view featured photos.</p>
+        <h2>Full Menu</h2>
+        <p>Search drinks, browse categories, and update everything from one menu source.</p>
       </div>
 
       <div class="menu-tools reveal">
@@ -158,89 +216,63 @@
           <i class="fa-solid fa-magnifying-glass"></i>
           <input type="search" id="menuSearch" placeholder="Search drinks, matcha, coffee, boba..." />
         </label>
+
         <div class="category-tabs" id="categoryTabs" aria-label="Menu categories"></div>
       </div>
 
       <div class="featured-strip reveal" id="featuredStrip"></div>
       <div class="menu-grid" id="menuGrid"></div>
-    </section>
 
-    <section class="section options-section">
-      <div class="container options-grid reveal">
-        <div>
-          <p class="eyebrow">Customize</p>
-          <h2>Ice, sugar, milk & extras</h2>
-          <p>Clear options help customers choose faster and reduce order mistakes.</p>
-        </div>
-        <div class="option-cards" id="customizationCards"></div>
-      </div>
-      <div class="container extras-panel reveal">
+      <div class="extras-panel reveal">
         <div>
           <h3>Toppings</h3>
           <div class="pill-grid" id="toppingGrid"></div>
         </div>
+
         <div>
           <h3>Syrups</h3>
           <div class="pill-grid compact" id="syrupGrid"></div>
         </div>
+
         <div>
           <h3>Sauces</h3>
           <div class="pill-grid compact" id="sauceGrid"></div>
         </div>
       </div>
     </section>
-
-    <section class="section container" id="gallery">
-      <div class="section-heading reveal">
-        <p class="eyebrow">Visual Updates</p>
-        <h2>Gallery</h2>
-        <p>Matcha, tea, coffee, gift cards, and small cloud moments from May.</p>
-      </div>
-      <div class="gallery-grid" id="galleryGrid"></div>
-    </section>
-
-    <section class="section visit-section" id="visit">
-      <div class="container visit-grid reveal">
-        <div>
-          <p class="eyebrow">Visit Us</p>
-          <h2 id="visitName"></h2>
-          <p id="visitAddress"></p>
-          <div class="visit-actions">
-            <a class="btn primary" id="directionLink" href="#" target="_blank" rel="noreferrer"><i class="fa-solid fa-location-arrow"></i> Get directions</a>
-            <a class="btn soft" id="phoneLink" href="#"><i class="fa-solid fa-phone"></i> Call now</a>
-          </div>
-        </div>
-        <div class="hours-card">
-          <h3>Hours</h3>
-          <div id="visitHours"></div>
-        </div>
-      </div>
-    </section>
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-grid">
+    <div class="footer-grid container">
       <div>
-        <div class="footer-brand"><img class="dynamic-logo" src="assets/logo-dark.png" alt="May Tea & Coffee logo" /><span>May Tea & Coffee</span></div>
-        <p>Tea, coffee, matcha, gift cards, and cloud rewards.</p>
+        <a href="#home" class="brand footer-brand">
+          <img class="brand-logo dynamic-logo" src="assets/logo-dark.png" alt="May Tea & Coffee logo" />
+          <span>May Tea & Coffee</span>
+        </a>
+        <p>Tea, coffee, matcha, gift cards, and cloud rewards in Hermitage, PA.</p>
       </div>
+
       <div>
-        <h4>Quick Links</h4>
-        <a href="#menu">Menu</a>
-        <a href="#loyalty">Loyalty</a>
-        <a href="#gift-card">Gift Cards</a>
+        <h3>Visit</h3>
+        <p id="footerAddress"></p>
+        <p id="footerPhone"></p>
+        <p id="footerEmail"></p>
       </div>
-      <div id="social">
-        <h4>Social</h4>
+
+      <div>
+        <h3>Connect</h3>
         <div class="social-links" id="socialLinks"></div>
       </div>
     </div>
-    <div class="footer-bottom">© <span id="year"></span> May Tea & Coffee. All rights reserved.</div>
+
+    <div class="footer-bottom">
+      © <span id="year"></span> May Tea & Coffee. All rights reserved.
+    </div>
   </footer>
 
-  <nav class="mobile-action-bar" aria-label="Quick actions">
+  <nav class="mobile-bottom-bar" aria-label="Quick actions">
     <a id="mobileCall" href="#"><i class="fa-solid fa-phone"></i><span>Call</span></a>
-    <a href="#menu"><i class="fa-solid fa-mug-hot"></i><span>Menu</span></a>
+    <button type="button" data-open-panel="full-menu"><i class="fa-solid fa-list"></i><span>Menu</span></button>
     <a id="mobileDirection" href="#" target="_blank" rel="noreferrer"><i class="fa-solid fa-location-arrow"></i><span>Direction</span></a>
   </nav>
 
