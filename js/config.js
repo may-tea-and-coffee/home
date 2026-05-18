@@ -1,9 +1,3 @@
-/*
-  MAY TEA & COFFEE WEBSITE CONFIG
-  Edit this file to update banners, promotions, menu, images, social links, and store info.
-  Set enabled: true/false to show or hide sections without deleting them.
-*/
-
 window.MAYTEA_CONFIG = {
   store: {
     name: "May Tea & Coffee",
@@ -21,17 +15,17 @@ window.MAYTEA_CONFIG = {
   },
 
   theme: {
-    defaultMode: "light", // light | dark | sunset
-    allowThemeSwitch: true
+    defaultMode: "light",
+    allowThemeSwitch: false
   },
 
   announcement: {
     enabled: true,
-    title: "Loyalty Card Reward",
+    title: "Cloud Stamp Reward",
     headline: "Free drink on your 10th cup",
-    message: "Collect one cloud stamp for every drink. Fill the loyalty card and redeem one free drink on your 10th cup.",
+    message: "Collect one cloud stamp for every drink. Tap the card to flip it, then view details below.",
     buttonText: "View loyalty card",
-    buttonLink: "#loyalty",
+    buttonLink: "#promotions",
     image: "assets/gift-card-3.png",
     showOncePerVisit: false
   },
@@ -40,11 +34,13 @@ window.MAYTEA_CONFIG = {
     {
       id: "loyalty-free-10th",
       enabled: true,
-      label: "Now Available",
-      title: "Cloud Stamp Loyalty Card",
+      label: "Loyalty Reward",
+      title: "Cloud Stamp Card",
       description: "Buy 9 drinks, collect 9 cloud stamps, and enjoy your 10th drink free.",
-      cta: "See details",
-      link: "#loyalty",
+      backTitle: "How it works",
+      backDescription: "Ask for a stamp at checkout. Each drink earns one cloud stamp. When your card reaches 10, redeem one free drink.",
+      cta: "View details",
+      link: "#promotions",
       image: "assets/gift-card-3.png"
     },
     {
@@ -52,9 +48,9 @@ window.MAYTEA_CONFIG = {
       enabled: false,
       label: "Hidden Promotion",
       title: "Trial Opening Celebration — 30% OFF",
-      description: "This promotion is currently hidden. Turn enabled to true when you want to show it again.",
+      description: "This promotion is hidden.",
       cta: "Explore menu",
-      link: "#menu",
+      link: "#full-menu",
       image: "assets/poster-matcha-cover.png"
     },
     {
@@ -73,7 +69,7 @@ window.MAYTEA_CONFIG = {
     eyebrow: "Matcha Series Launch",
     title: "Take a Break, Sip Some Matcha",
     description: "Premium matcha, Vietnamese coffee, milk tea, fruit tea, smoothies, and cloud-style toppings made for every mood.",
-    primaryButton: { text: "Explore menu", link: "#menu" },
+    primaryButton: { text: "Explore menu", link: "#full-menu" },
     secondaryButton: { text: "Gift cards", link: "#gift-card" },
     image: "assets/poster-matcha-studio.png"
   },
@@ -255,4 +251,3 @@ window.MAYTEA_CONFIG = {
     googleReview: "#"
   }
 };
-
